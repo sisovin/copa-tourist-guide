@@ -19,6 +19,8 @@ const Gallery = () => {
             height={500}
             quality={75}
             loading="lazy"
+            placeholder="blur"
+            blurDataURL="/images/placeholder.jpg"
           />
         </div>
       ))}
