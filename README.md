@@ -1,2 +1,1 @@
-# copa-tourist-guide
-A repository for the Copa Tourist Guide project
+This repository is empty. Any task executed on it should be considered a new capability and needs to be created.
