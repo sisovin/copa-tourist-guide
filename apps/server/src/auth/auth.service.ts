@@ -3,18 +3,19 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../../prisma/prisma.service';
 import { User } from '@prisma/client';
 import { LoginDto, RegisterDto } from './dto';
-import * as bcrypt from 'bcrypt';
+import { Argon2Service } from './argon2.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    private readonly argon2Service: Argon2Service,
   ) {}
 
   async register(registerDto: RegisterDto): Promise<User> {
     const { email, password } = registerDto;
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await this.argon2Service.hash(password);
     return this.prisma.user.create({
       data: {
         email,
@@ -28,7 +29,7 @@ export class AuthService {
     const { email, password } = loginDto;
     const user = await this.prisma.user.findUnique({ where: { email } });
 
-    if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
+    if (!user || !(await this.argon2Service.verify(user.passwordHash, password))) {
       throw new Error('Invalid credentials');
     }
 

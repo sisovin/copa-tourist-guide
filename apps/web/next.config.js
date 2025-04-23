@@ -14,4 +14,8 @@ module.exports = withBundleAnalyzer({
     }
     return config;
   },
+  experimental: {
+    optimizeCss: true,
+    optimizeImages: true,
+  },
 });

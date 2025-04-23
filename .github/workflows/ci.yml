@@ -47,3 +47,9 @@ jobs:
 
       - name: Build application
         run: npm run build
+
+      - name: Deploy to production
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "Deploying to production..."
+          # Add your deployment commands here
